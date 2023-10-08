@@ -1,4 +1,4 @@
-package com.codepath.articlesearch
+package com.codepath.`CIT238-FlixterPt2`
 
 import org.junit.Test
 
