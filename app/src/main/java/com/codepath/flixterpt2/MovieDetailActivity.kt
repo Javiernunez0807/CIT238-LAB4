@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 private const val TAG = "DetailActivity"
 
-class DetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity() {
     private lateinit var mediaImageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var bylineTextView: TextView
@@ -16,7 +16,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_moviedetail)
 
         // TODO: Find the views for the screen
 

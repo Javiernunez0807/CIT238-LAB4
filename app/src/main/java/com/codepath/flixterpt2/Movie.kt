@@ -3,6 +3,9 @@ package com.codepath.flixterpt2
 import android.support.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @Keep
@@ -23,6 +26,25 @@ data class Movie(
     val title: String?,
     @SerialName("poster_path")
     val multimedia: String?,
+
 ): java.io.Serializable {
-    val mediaImageUrl = "https://image.tmdb.org/t/p/w500$multimedia"}
+    val mediaImageUrl = "https://image.tmdb.org/t/p/w500$multimedia"
+
+    val formattedReleaseDate: String?
+        get(){
+            if(releaseDate != null) {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                val outputFormat = SimpleDateFormat("MMM d, yyyy", Locale.US)
+                return try {
+                    val date = inputFormat.parse(releaseDate)
+                    outputFormat.format(date)
+                } catch (e: ParseException) {
+                    null
+                }
+            }
+            return null
+        }
+    }
+
+
 
