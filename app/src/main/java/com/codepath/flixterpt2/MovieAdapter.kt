@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-const val ARTICLE_EXTRA = "ARTICLE_EXTRA"
-private const val TAG = "ArticleAdapter"
+const val MOVIE_EXTRA = "MOVIE_EXTRA"
+private const val TAG = "MovieAdapter"
 
 class MovieAdapter(private val context: Context, private val movies: List<Movie>) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -56,7 +56,7 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
             val movie = movies[absoluteAdapterPosition]
             // TODO: Navigate to Details screen and pass selected article
             val intent = Intent(context, MovieDetailActivity::class.java)
-            intent.putExtra(ARTICLE_EXTRA, movie)
+            intent.putExtra(MOVIE_EXTRA, movie)
             context.startActivity(intent)
 
         }
