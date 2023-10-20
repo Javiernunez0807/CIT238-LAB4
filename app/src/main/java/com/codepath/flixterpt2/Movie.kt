@@ -26,6 +26,10 @@ data class Movie(
     val title: String?,
     @SerialName("poster_path")
     val multimedia: String?,
+    @SerialName("vote_average")
+    val voteAverage: String?,
+    @SerialName("vote_count")
+    val voteCount: String?,
 
 ): java.io.Serializable {
     val mediaImageUrl = "https://image.tmdb.org/t/p/w500$multimedia"

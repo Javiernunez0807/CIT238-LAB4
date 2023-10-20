@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler.JSON
 import com.codepath.flixterpt2.databinding.ActivityMainBinding
 
 import kotlinx.serialization.json.Json
@@ -20,9 +21,6 @@ fun createJson() = Json {
 }
 
 private const val TAG = "MainActivity/"
-private const val SEARCH_API_KEY = BuildConfig.API_KEY
-private const val POPULAR_MOVIES_URL = "https://api.themoviedb.org/3/movie/popular?api_key=${SEARCH_API_KEY}"
-private const val POPULAR_ACTORS_URL = "https://api.themoviedb.org/3/person/popular?api_key=${SEARCH_API_KEY}"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var articlesRecyclerView: RecyclerView
@@ -30,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val movies = mutableListOf<com.codepath.flixterpt2.Movie>()
     private val actors = mutableListOf<Actor>()
+    /// Created custom apiClient class to keep URLS in one space
+    private val apiClient = getClient.ApiClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,39 +52,40 @@ class MainActivity : AppCompatActivity() {
         articlesRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         actorsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        val client = AsyncHttpClient()
-        client.get(POPULAR_MOVIES_URL, object : JsonHttpResponseHandler() {
+
+        apiClient.getPopularMovies(object: JsonHttpResponseHandler(){
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Headers,
+                json: JSON) {
+                Log.i(TAG, "Successfully fetched movies: $json")
+                try {
+                    // TODO: Create the parsedJSON
+                    val parsedJson = createJson().decodeFromString(
+                        BaseResponse.serializer(),
+                        json.jsonObject.toString()
+                    )
+                    // TODO: Do something with the returned json (contains article information)
+                    // TODO: Save the articles and reload the screen
+                    parsedJson.results?.let {list ->
+                        movies.addAll(list)
+                        movieAdapter.notifyDataSetChanged()
+                    }
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Exception: $e")
+                }
+
+            }
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
                 response: String?,
-                throwable: Throwable?
-            ) {
+                throwable: Throwable?)
+            {
                 Log.e(TAG, "Failed to fetch movies: $statusCode")
             }
-
-            override fun onSuccess(statusCode: Int, headers: Headers, json: JSON) {
-                Log.i(TAG, "Successfully fetched movies: $json")
-                try {
-                    // TODO: Create the parsedJSON
-                        val parsedJson = createJson().decodeFromString(
-                            BaseResponse.serializer(),
-                            json.jsonObject.toString()
-                        )
-                    // TODO: Do something with the returned json (contains article information)
-                    // TODO: Save the articles and reload the screen
-                        parsedJson.results?.let {list ->
-                            movies.addAll(list)
-                            movieAdapter.notifyDataSetChanged()
-                        }
-                } catch (e: JSONException) {
-                    Log.e(TAG, "Exception: $e")
-                }
-            }
-
         })
-
-        client.get(POPULAR_ACTORS_URL, object : JsonHttpResponseHandler() {
+        apiClient.getPopularActors(object: JsonHttpResponseHandler() {
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
@@ -106,12 +107,11 @@ class MainActivity : AppCompatActivity() {
                         actors.addAll(list)
                         actorAdapter.notifyDataSetChanged()
                     }
-                    } catch (e: JSONException) {
-                        Log.e(TAG, "Exception: $e")
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Exception: $e")
                 }
             }
         })
 
-
+        }
     }
-}

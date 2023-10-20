@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".MovieDetailActivity">
 
+    <TextView
+        android:id="@+id/ratingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/movieOverview"
+        app:layout_constraintEnd_toStartOf="@+id/movieRating"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
+
     <ImageView
         android:id="@+id/movieImage"
         android:layout_width="0dp"
@@ -32,17 +44,18 @@
         app:layout_constraintTop_toBottomOf="@+id/movieImage" />
 
     <TextView
-        android:id="@+id/mediaByline"
-        android:layout_width="0dp"
+        android:id="@+id/RatingsText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:text="Byline"
+        android:text="Votes: "
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
@@ -58,6 +71,29 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mediaByline" />
+        app:layout_constraintTop_toBottomOf="@+id/RatingsText" />
+
+    <RatingBar
+        android:id="@+id/movieRating"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:isIndicator="true"
+        android:max="5"
+        android:scaleX=".5"
+        android:scaleY=".5"
+        app:layout_constraintBottom_toTopOf="@+id/movieOverview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
+
+    <TextView
+        android:id="@+id/countView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/teal_700"
+        app:layout_constraintBottom_toTopOf="@+id/movieOverview"
+        app:layout_constraintEnd_toStartOf="@+id/ratingsText"
+        app:layout_constraintStart_toEndOf="@+id/RatingsText"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
