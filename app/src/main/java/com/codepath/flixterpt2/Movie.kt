@@ -26,6 +26,8 @@ data class Movie(
     val title: String?,
     @SerialName("poster_path")
     val multimedia: String?,
+    @SerialName("backdrop_path")
+    val backdrop: String?,
     @SerialName("vote_average")
     val voteAverage: String?,
     @SerialName("vote_count")
@@ -33,7 +35,7 @@ data class Movie(
 
 ): java.io.Serializable {
     val mediaImageUrl = "https://image.tmdb.org/t/p/w500$multimedia"
-
+    val backdropImageUrl = "https://image.tmdb.org/t/p/w500$backdrop"
     val formattedReleaseDate: String?
         get(){
             if(releaseDate != null) {

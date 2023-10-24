@@ -41,7 +41,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         // TODO: Load the media image
         Glide.with(this)
-            .load(movie.mediaImageUrl)
+            .load(movie.backdropImageUrl)
             .into(mediaImageView)
 
     }
